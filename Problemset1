@@ -1,0 +1,127 @@
+import util
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.seterr(all='raise')
+
+
+factor = 2.0
+
+class LinearModel(object):
+  """Base class for linear models.
+  Attributes:
+    theta: np.ndarray, dtype=np.float64, shape=(n_features,). Weights vector for
+      the model.
+  """
+
+  def __init__(self, theta=None):
+    """
+    Args:
+      theta: (See class definition)
+    """
+    self.theta = theta
+
+  def fit(self, x, y):
+    """Fits the linear model to x -> y using np.linalg.solve.
+    Remember to update self.theta with the fitted model parameters.
+    Args:
+      x: np.ndarray, dtype=np.float64, shape=(n_examples, n_features). Inputs.
+      y: np.ndarray, dtype=np.float64, shape=(n_examples,). Outputs.
+    Returns: Nothing
+    """
+    pass
+    # *** START CODE HERE ***
+    # *** END CODE HERE ***
+
+  def predict(self, x):
+    """ Makes a prediction given a new set of input features.
+    Args:
+      x: np.ndarray, dtype=np.float64, shape=(n_examples, n_features). Model input.
+    Returns: np.float64. Model output.
+    """
+    pass
+    # *** START CODE HERE ***
+    # *** END CODE HERE ***
+
+  @staticmethod
+  def create_poly(k, x):
+    """ Generates polynomial features of the input data x.
+    Args:
+      x: np.ndarray, dtype=np.float64, shape=(n_examples,). Training inputs.
+    
+    Returns: np.ndarray, dtype=np.float64, shape=(n_examples, k+1). Polynomial
+      features of x with powers 0 to k (inclusive).
+    """
+    pass
+    # *** START CODE HERE ***
+    # *** END CODE HERE ***
+
+  @staticmethod
+  def create_sin(k, x):
+    """ Generates sine and polynomial features of the input data x.
+    Args:
+      x: np.ndarray, dtype=np.float64, shape=(n_examples,). Training inputs.
+    
+    Returns: np.ndarray, dtype=np.float64, shape=(n_examples, k+2). Sine (axis
+      0) and polynomial (axes 1 to k+1) features of x with powers 0 to k
+      (inclusive).
+    """
+    pass
+    # *** START CODE HERE ***
+    # *** END CODE HERE ***
+
+def run_exp(train_path, sine=False, ks=[1, 2, 3, 5, 10, 20], filename='plot.png'):
+  train_x,train_y=util.load_dataset(train_path,add_intercept=False)
+  plot_x = np.ones([1000, 1])
+  plot_x[:, 0] = np.linspace(-factor*np.pi, factor*np.pi, 1000)
+  plt.figure()
+  plt.scatter(train_x, train_y)
+
+  for k in ks:
+      '''
+      Our objective is to train models and perform predictions on plot_x data
+      '''
+      # *** START CODE HERE ***
+      # *** END CODE HERE ***
+      '''
+      Here plot_y are the predictions of the linear model on the plot_x data
+      '''
+      plt.ylim(-2, 2)
+      plt.plot(plot_x[:, 0], plot_y, label='k=%d' % k)
+
+  plt.legend()
+  plt.savefig(filename)
+  plt.clf()
+
+
+def main(train_path, small_path, eval_path):
+  '''
+  Run all experiments
+  '''
+  # *** START CODE HERE ***
+  # *** END CODE HERE ***
+
+if __name__ == '__main__':
+  main(train_path='train.csv',
+      small_path='small.csv',
+      eval_path='test.csv')
+
+
+Class Notes:
+
+///----- START 2b-2-basic:  Create the plot for visually verifying the student's implementation.
+<class 'NameError'>
+name 'plot_y' is not defined
+  File "/Users/.../opt/anaconda3/envs/XCS229i/lib/python3.7/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/Users/.../opt/anaconda3/envs/XCS229i/lib/python3.7/unittest/case.py", line 628, in run
+    testMethod()
+  File "/Users/.../XCS229i-PS1/src/graderUtil.py", line 54, in wrapper
+    result = func(*args, **kwargs)
+  File "/Users/.../XCS229i-PS1/src/graderUtil.py", line 83, in wrapper
+    result = func(*args, **kwargs)
+  File "grader.py", line 51, in test_2
+    submission.run_exp('train.csv', False, [3], 'large-poly3.png')
+  File "/Users/namratatholiya/Documents/Coursera/ML/XCS229i-PS1/src/submission.py", line 103, in run_exp
+    plt.plot(plot_x[:, 0], plot_y, label='k=%d' % k)
+----- END 2b-2-basic [took 0:00:00.088558 (max allowed 5 seconds), 0/0 points]

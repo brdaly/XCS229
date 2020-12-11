@@ -62,8 +62,8 @@ class LinearModel(object):
     Args:
       x: np.ndarray, dtype=np.float64, shape=(n_examples,). Training inputs.
     
-    Returns: np.ndarray, dtype=np.float64, shape=(n_examples, k+2). Sine (axis
-      0) and polynomial (axes 1 to k+1) features of x with powers 0 to k
+    Returns: np.ndarray, dtype=np.float64, shape=(n_examples, k+2). Sine (column
+      0) and polynomial (columns 1 to k+1) features of x with powers 0 to k
       (inclusive).
     """
     pass

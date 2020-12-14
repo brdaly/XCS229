@@ -31,6 +31,12 @@ class LinearModel(object):
     """
     pass
     # *** START CODE HERE ***
+    
+    X_t = np.transpose(x) #take a transpose of x into X_t
+    X_t_X = np.dot(X_t, x) #Take a dot product of x & Xt in one array
+    X_t_y = np.dot(X_t, y) #Take another dot product of xt & y
+    self.theta = np.linalg.solve(X_t_X, X_t_y).reshape(-1,1)
+    
     # *** END CODE HERE ***
 
   def predict(self, x):
@@ -41,11 +47,16 @@ class LinearModel(object):
     """
     pass
     # *** START CODE HERE ***
+    
+    predict_x = x.dot(self.theta)
+    return(predict_x)
+    
     # *** END CODE HERE ***
 
   @staticmethod
   def create_poly(k, x):
     """ Generates polynomial features of the input data x.
+    
     Args:
       x: np.ndarray, dtype=np.float64, shape=(n_examples,). Training inputs.
     
@@ -54,6 +65,15 @@ class LinearModel(object):
     """
     pass
     # *** START CODE HERE ***
+    
+    poly_in = np.poly1d([n,1])
+    
+    #x-poly = [x0 =1, x1= x^1, x2 = x^2, x3=x^3....... = 1, x1]
+    poly_out shape ([n, k+1]) #adding in 0,0 term?
+    
+    
+    print(np.poly1d(p))
+    
     # *** END CODE HERE ***
 
   @staticmethod
@@ -62,12 +82,13 @@ class LinearModel(object):
     Args:
       x: np.ndarray, dtype=np.float64, shape=(n_examples,). Training inputs.
     
-    Returns: np.ndarray, dtype=np.float64, shape=(n_examples, k+2). Sine (column
-      0) and polynomial (columns 1 to k+1) features of x with powers 0 to k
+    Returns: np.ndarray, dtype=np.float64, shape=(n_examples, k+2). Sine (axis
+      0) and polynomial (axes 1 to k+1) features of x with powers 0 to k
       (inclusive).
     """
     pass
     # *** START CODE HERE ***
+    
     # *** END CODE HERE ***
 
 def run_exp(train_path, sine=False, ks=[1, 2, 3, 5, 10, 20], filename='plot.png'):
@@ -98,13 +119,12 @@ def main(train_path, small_path, eval_path):
   '''
   Run all experiments
   '''
-  run_exp(train_path, False, [3], 'large-poly3.png')
-  run_exp(train_path, True, [1, 2, 3, 5, 10, 20], 'large-sine.png')
-  run_exp(train_path, False, [1, 2, 3, 5, 10, 20], 'large-poly.png')
-  run_exp(small_path, True, [1, 2, 3, 5, 10, 20], 'small-sine.png')
-  run_exp(small_path, False, [1, 2, 3, 5, 10, 20], 'small-poly.png')
+  
+  # *** START CODE HERE ***
+  # *** END CODE HERE ***
 
 if __name__ == '__main__':
   main(train_path='train.csv',
       small_path='small.csv',
       eval_path='test.csv')
+      

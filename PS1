@@ -1,3 +1,4 @@
+
 import util
 import numpy as np
 import matplotlib.pyplot as plt
@@ -32,9 +33,9 @@ class LinearModel(object):
     pass
     # *** START CODE HERE ***
     
-    X_t = np.transpose(x) #take a transpose of x into X_t
-    X_t_X = np.dot(X_t, x) #Take a dot product of x & Xt in one array
-    X_t_y = np.dot(X_t, y) #Take another dot product of xt & y
+    X_t = np.transpose(x)
+    X_t_X = np.dot(X_t, x)
+    X_t_y = np.dot(X_t, y)
     self.theta = np.linalg.solve(X_t_X, X_t_y).reshape(-1,1)
     
     # *** END CODE HERE ***
@@ -50,13 +51,12 @@ class LinearModel(object):
     
     predict_x = x.dot(self.theta)
     return(predict_x)
-    
+
     # *** END CODE HERE ***
 
   @staticmethod
   def create_poly(k, x):
     """ Generates polynomial features of the input data x.
-    
     Args:
       x: np.ndarray, dtype=np.float64, shape=(n_examples,). Training inputs.
     
@@ -65,14 +65,37 @@ class LinearModel(object):
     """
     pass
     # *** START CODE HERE ***
+    create polynomial  for give k & x.in form of x-poly = 
+    [x0 = 1, x1 = x^1 x2 = x^2 x3 = x^3]........
+    so if x is in shape [n=70, 1] after this function you will get a new x_poly of shape [n, k+1]
+    run_exp is basically for getting initial theta by training x & y using fit, create_poly...once after training , 
+    you got theta, you will use plot_y again to get polynomial form of that data and 
+    use theta you received from 2 steps and that will give you plot_y that will plot your graph
     
-    poly_in = np.poly1d([n,1])
-    
-    #x-poly = [x0 =1, x1= x^1, x2 = x^2, x3=x^3....... = 1, x1]
-    poly_out shape ([n, k+1]) #adding in 0,0 term?
-    
-    
+    poly = PolynomialFeatures(degree = k)
+    k=3
+    X_poly = poly.fit_transform(X)
+    poly.fit(X_poly, y)
+    lin2 = LinearRegression()
+    lin2.fit(X_poly, y)
+    poly_out shape ([n, k+1]) #adding the first term?
     print(np.poly1d(p))
+    
+    k=3
+    X_poly = np.arange(start=1, stop =k+1, step=1),reshape ([n,k+1])
+    np.power(X_poly,n)
+    np.expand_dims(x, axis=1)
+    np.hstack((1,X_poly))
+    return (X_poly)
+
+    
+    So something like this:
+[ 1           1         ....       1
+ n1x       n2x      ....        n_nx
+....
+n_1x^3  n_2x^3 ...... n_nx^3]
+where n is the number of examples provided as input. 
+    
     
     # *** END CODE HERE ***
 
@@ -82,12 +105,24 @@ class LinearModel(object):
     Args:
       x: np.ndarray, dtype=np.float64, shape=(n_examples,). Training inputs.
     
-    Returns: np.ndarray, dtype=np.float64, shape=(n_examples, k+2). Sine (axis
-      0) and polynomial (axes 1 to k+1) features of x with powers 0 to k
+    Returns: np.ndarray, dtype=np.float64, shape=(n_examples, k+2). Sine (column
+      0) and polynomial (columns 1 to k+1) features of x with powers 0 to k
       (inclusive).
     """
     pass
     # *** START CODE HERE ***
+    
+        #Adding additional feature in polynomial features, generating a x_sine[n, k+2] shape matrix
+        
+    x_sine = np.arrange(x),reshape ([k+2,n])
+    np.power(poly,n)
+    np.expand_dims(x, axis=1)
+    np.hstack((X_poly,x_sine))
+    np.sin(np.array(a))
+    
+    
+    and as for create_sin features, you do something similar 
+only this time your feature vector deals with an additional sin(x) function for each example provided.
     
     # *** END CODE HERE ***
 
@@ -119,12 +154,13 @@ def main(train_path, small_path, eval_path):
   '''
   Run all experiments
   '''
-  
-  # *** START CODE HERE ***
-  # *** END CODE HERE ***
+  run_exp(train_path, False, [3], 'large-poly3.png')
+  run_exp(train_path, True, [1, 2, 3, 5, 10, 20], 'large-sine.png')
+  run_exp(train_path, False, [1, 2, 3, 5, 10, 20], 'large-poly.png')
+  run_exp(small_path, True, [1, 2, 3, 5, 10, 20], 'small-sine.png')
+  run_exp(small_path, False, [1, 2, 3, 5, 10, 20], 'small-poly.png')
 
 if __name__ == '__main__':
   main(train_path='train.csv',
       small_path='small.csv',
       eval_path='test.csv')
-      

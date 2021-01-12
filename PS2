@@ -30,6 +30,7 @@ def main(lr, train_path, eval_path, save_path):
 
 class PoissonRegression:
     """Poisson Regression.
+    
     Example usage:
         > clf = PoissonRegression(step_size=lr)
         > clf.fit(x_train, y_train)
@@ -52,6 +53,7 @@ class PoissonRegression:
         self.eps = eps
         self.verbose = verbose
 
+
     def fit(self, x, y):
         """Run gradient ascent to maximize likelihood for Poisson regression.
         Args:
@@ -59,16 +61,39 @@ class PoissonRegression:
             y: Training example labels. Shape (n_examples,).
         """
         # *** START CODE HERE ***
-        # *** END CODE HERE ***
-
+        m, n = x.shape
+        if self.theta is None:
+            self.theta = np.zeros(n, dtype=np.float32)
+            
+        prev_theta = None
+        i = 0
+        while i < self.max_iter \
+                and (prev_theta is None
+                     or np.sum(np.abs(self.theta - prev_theta)) > self.eps):
+                i += 1
+                prev_theta = np.copy(self.theta)
+                self._step(x, y)
+                if self.verbose and i % 5 == 0:
+                    print('[iter: {:02d}, theta: {}]'
+                          .format(i, [round(t, 5) for t in self.theta]))
+        #*** END CODE HERE ***
+        
     def predict(self, x):
         """Make a prediction given inputs x.
-        Args:
-            x: Inputs of shape (n_examples, dim).
-        Returns:
-            Floating-point prediction for each input, shape (n_examples,).
+            Args:
+                x: Inputs of shape (n_examples, dim).
+            Returns:
+                Floating-point prediction for each input, shape (n_examples,).
         """
         # *** START CODE HERE ***
+        y_hat = np.exp(x.dot(self.theta))
+        
+        return y_hat
+                       
+    def _step(self, x, y):
+        """ Perform Gradient ascent update for one step. """
+        grad = np.expand_dims(y - np.exp(x.dot(self.theta)), 1) * x
+        self.theta = self.theta + self.step_size * np.sum(grad, axis=0)
         # *** END CODE HERE ***
 
 if __name__ == '__main__':
